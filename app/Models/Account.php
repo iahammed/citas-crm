@@ -20,4 +20,14 @@ class Account extends Model
     {
         return $this->hasMany(Contact::class);
     }
+    
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
 }

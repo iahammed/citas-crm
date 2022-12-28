@@ -7,6 +7,8 @@ use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\CourseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -67,6 +69,28 @@ Route::delete('users/{user}', [UsersController::class, 'destroy'])
 
 Route::put('users/{user}/restore', [UsersController::class, 'restore'])
     ->name('users.restore')
+    ->middleware('auth');
+
+// Courses
+Route::get('courses', [CourseController::class, 'index'])
+    ->name('courses')
+    ->middleware('auth');
+
+// Students
+Route::get('students', [StudentController::class, 'index'])
+    ->name('students')
+    ->middleware('auth');
+
+Route::get('students/create', [StudentController::class, 'create'])
+    ->name('students.create')
+    ->middleware('auth');
+
+Route::post('students', [StudentController::class, 'store'])
+    ->name('students.store')
+    ->middleware('auth');
+
+Route::get('students/{student}/edit', [StudentController::class, 'edit'])
+    ->name('students.edit')
     ->middleware('auth');
 
 // Organizations

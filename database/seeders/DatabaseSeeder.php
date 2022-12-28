@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+use App\Models\Course;
 use App\Models\Account;
 use App\Models\Contact;
+use App\Models\Student; 
 use App\Models\Organization;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,7 +19,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $account = Account::create(['name' => 'Acme Corporation']);
+        $account = Account::create(['name' => 'Citas College']);
 
         User::factory()->create([
             'account_id' => $account->id,
@@ -28,15 +30,21 @@ class DatabaseSeeder extends Seeder
             'owner' => true,
         ]);
 
-        User::factory(5)->create(['account_id' => $account->id]);
+        $users = User::factory(5)->create(['account_id' => $account->id]);
 
-        $organizations = Organization::factory(100)
+        $organizations = Organization::factory(10)
             ->create(['account_id' => $account->id]);
 
-        Contact::factory(100)
+        Student::factory(300)
+            ->create(['account_id' => $account->id, 'user_id' => $users->random()->id]);
+
+        Contact::factory(10)
             ->create(['account_id' => $account->id])
             ->each(function ($contact) use ($organizations) {
                 $contact->update(['organization_id' => $organizations->random()->id]);
             });
+
+        Course::factory(5)
+            ->create(['account_id' => $account->id, 'user_id' => $users->random()->id]);
     }
 }
