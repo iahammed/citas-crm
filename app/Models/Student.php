@@ -49,6 +49,16 @@ class Student extends Model
     {
         return $this->hasOne(CourseStudent::class);
     }
+
+    public function myPayments()
+    {
+        return $this->hasMany(PaymentsStudent::class);
+    }
+
+    public function agent_payment()
+    {
+        return $this->hasMany(AgentPayment::class);
+    }
     
     /**
      * The course that belong to the student.

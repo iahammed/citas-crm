@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCourseStudentsTable extends Migration
+class CreateCourseStudentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateCourseStudentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('course_students', function (Blueprint $table) {
+        Schema::create('course_student', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_id')
                     ->constrained('courses')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $table->foreignId('student_id')
-                    ->constrained('studennts')
+                    ->constrained('students')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $table->foreignId('account_id')
@@ -32,11 +32,13 @@ class CreateCourseStudentsTable extends Migration
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $table->decimal('fees', $precision = 8, $scale = 2);
+            $table->decimal('net_fees', $precision = 8, $scale = 2);
             $table->decimal('fees_received', $precision = 8, $scale = 2);
             $table->decimal('fees_escrow', $precision = 8, $scale = 2);
             $table->decimal('fees_disbursed', $precision = 8, $scale = 2);
             $table->date('start_date');
             $table->date('finish_date');
+            $table->integer('duration');
             $table->timestamps();
             $table->softDeletes();
         });

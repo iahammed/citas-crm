@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Agent;
 use App\Models\Course;
 use App\Models\Account;
 use App\Models\Contact;
@@ -35,13 +36,18 @@ class DatabaseSeeder extends Seeder
         $organizations = Organization::factory(10)
             ->create(['account_id' => $account->id]);
 
-        Student::factory(300)
-            ->create(['account_id' => $account->id, 'user_id' => $users->random()->id]);
+        // Student::factory(300)
+        //     ->create(['account_id' => $account->id, 'user_id' => $users->random()->id]);
 
         Contact::factory(10)
             ->create(['account_id' => $account->id])
             ->each(function ($contact) use ($organizations) {
                 $contact->update(['organization_id' => $organizations->random()->id]);
+            });
+        Agent::factory(10)
+            ->create(['account_id' => $account->id])
+            ->each(function ($agent) use ($organizations) {
+                $agent->update(['organization_id' => $organizations->random()->id]);
             });
 
         Course::factory(5)

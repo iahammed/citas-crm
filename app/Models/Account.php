@@ -30,4 +30,14 @@ class Account extends Model
     {
         return $this->hasMany(Course::class);
     }
+
+    public function agents()
+    {
+        return $this->hasMany(Agent::class);
+    }
+
+    public function agent_payment()
+    {
+        return $this->hasMany(AgentPayment::class);
+    }
 }

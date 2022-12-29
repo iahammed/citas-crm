@@ -23,8 +23,8 @@ class CreatePaymentEscrowDisbursedsTable extends Migration
                     ->constrained()
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            $table->foreignId('course_students')
-                    ->constrained('course_students')
+            $table->foreignId('course_student_id')
+                    ->constrained('course_student')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
             $table->date('payment_date');
