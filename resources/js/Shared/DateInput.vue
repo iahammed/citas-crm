@@ -1,7 +1,7 @@
 <template>
     <div :class="$attrs.class">
       <label v-if="label" class="form-label" :for="id">{{ label }}:</label>
-      <Datepicker v-model="selected" class="rounded-xl" :year-range="[1920, 2023]" :format="format" :min-date="minDate" :max-date="maxDate" :start-date="maxDate" :enable-time-picker="false" v-bind="{ ...$attrs, class: null }" :class="{ error: error }" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" />
+      <Datepicker v-model="selected" class="rounded-xl"  :year-range="[1960, 2050]" :format="format" :min-date="minDate" :max-date="maxDate" :start-date="maxDate" :enable-time-picker="false" v-bind="{ ...$attrs, class: null }" :class="{ error: error }" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" />
       <div v-if="error" class="form-error">{{ error }}</div>
     </div>
   </template>

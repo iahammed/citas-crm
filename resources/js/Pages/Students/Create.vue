@@ -11,7 +11,7 @@
             <!-- Personal -->
             <text-input v-model="form.first_name" :error="form.errors.first_name" class="pb-8 pr-6 w-full lg:w-1/2" label="First name" />
             <text-input v-model="form.last_name" :error="form.errors.last_name" class="pb-8 pr-6 w-full lg:w-1/2" label="Last name" />
-            <date-input v-model="form.dob" :error="form.errors.postal_code" class="pb-8 pr-6 w-full lg:w-1/2" label="Date of birth"></date-input>
+            <date-input v-model="form.dob" :error="form.errors.dob" class="pb-8 pr-6 w-full lg:w-1/2" label="Date of birth"></date-input>
             <select-input v-model="form.country" :error="form.errors.country" class="pb-8 pr-6 w-full lg:w-1/2" label="Country">
               <option :value="null" />
               <option value="CA">Canada</option>
@@ -38,8 +38,8 @@
             </select-input>
             <text-input v-model="form.fees" :error="form.errors.fees" class="pb-8 pr-6 w-full lg:w-1/2" label="Fees" />
             <text-input v-model="form.fees_received" :error="form.errors.fees_received" class="pb-8 pr-6 w-full lg:w-1/2" label="Fees received" />
-            <date-input v-model="form.start" :error="form.errors.postal_code" class="pb-8 pr-6 w-full lg:w-1/2" label="Course Start"></date-input>
-            <select-input v-model="form.length"  :error="form.errors.length" class="pb-8 pr-6 w-full lg:w-1/2" label="Length of course">
+            <date-input v-model="form.start" :error="form.errors.start" class="pb-8 pr-6 w-full lg:w-1/2" label="Course Start"></date-input>
+            <select-input v-model="form.length"  :error="form.errors.length" class="pb-8 pr-6 w-full lg:w-1/2" label="Duration of course">
               <option :value="null" />
               <option v-for="ln in length" :key="ln.id" :value="ln.value">{{ ln.label }}</option>
             </select-input>

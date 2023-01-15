@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+
 
 class Student extends Model
 {
@@ -44,7 +46,7 @@ class Student extends Model
     {
         return $this->belongsTo(Account::class);
     }
-
+    /** table course_student */
     public function myCourse()
     {
         return $this->hasOne(CourseStudent::class);
@@ -54,6 +56,21 @@ class Student extends Model
     {
         return $this->hasMany(PaymentsStudent::class);
     }
+
+    public function getPaymentsAttribute()
+    {
+        $payments = $this->myPayments;
+        $myPayments = [];
+        foreach($payments as $payment) {
+            $myPayments[] = [
+                'payment' => $payment,
+                'user' => $payment->user
+            ];
+        }
+        return $myPayments;
+    }
+
+
 
     public function agent_payment()
     {

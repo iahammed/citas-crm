@@ -26,13 +26,19 @@ class StoreStudentRequest extends FormRequest
         return [
             'first_name' => ['required', 'max:50'],
             'last_name' => ['required', 'max:50'],
-            'email' => ['nullable', 'max:50', 'email'],
+            'email' => ['required','unique:students', 'max:50', 'email'],
             'phone' => ['nullable', 'max:50'],
             'address' => ['nullable', 'max:150'],
             'city' => ['nullable', 'max:50'],
             'region' => ['nullable', 'max:50'],
             'country' => ['nullable', 'max:2'],
             'postal_code' => ['nullable', 'max:25'],
+            'course_id' => ['required'],
+            'start' => ['required' ],
+            'length' => ['required', 'numeric'],
+            'fees_received' => ['required', 'numeric', 'min:20'],
+            'fees' => ['required', 'numeric', 'min:1000'],
+            'dob' => ['required']
         ];
     }
 }

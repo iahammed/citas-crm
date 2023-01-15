@@ -93,6 +93,18 @@ Route::get('students/{student}/edit', [StudentController::class, 'edit'])
     ->name('students.edit')
     ->middleware('auth');
 
+Route::get('students/{student}/payment', [StudentController::class, 'payment'])
+    ->name('students.payment')
+    ->middleware('auth');
+
+Route::post('students-payment-save/{student}', [StudentController::class, 'paymentSave'])
+    ->name('students.paymentSave')
+    ->middleware('auth');
+
+
+
+
+
 // Organizations
 
 Route::get('organizations', [OrganizationsController::class, 'index'])

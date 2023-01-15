@@ -8,17 +8,19 @@ use App\Models\Contact;
 use App\Models\Student;
 use App\Models\AgentPayment;
 use App\Models\CourseStudent;
+use App\Models\PaymentsStudent;
 use function PHPSTORM_META\map;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 
+use Faker\Provider\ar_EG\Payment;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
-use App\Models\PaymentsStudent;
-use Faker\Provider\ar_EG\Payment;
+use App\Http\Requests\StudentPaymentRequest;
+use App\Models\User;
 
 class StudentController extends Controller
 {
@@ -212,8 +214,7 @@ class StudentController extends Controller
             ],
             'course' => $student->course,
             'my_course' => $student->myCourse,
-            'payments' => $student->myPayments,
-
+            'payments' => $student->payments
         ]);
     }
 
@@ -265,5 +266,52 @@ class StudentController extends Controller
         $student->restore();
 
         return Redirect::back()->with('success', 'Student restored.');
+    }
+
+    public function payment(Student $student)
+    {
+        return Inertia::render('Students/Payment', [
+            'student' => [
+                'id' => $student->id,
+                'first_name' => $student->first_name,
+                'last_name' => $student->last_name,
+                'fees' => $student->myCourse->fees,
+                'received' => $student->myCourse->fees_received,
+                'escrow' => $student->myCourse->fees_escrow
+            ]
+        ]);
+    }
+
+    public function paymentSave(StudentPaymentRequest $request, Student $student)
+    {
+        $amount = $request['amount'];
+        $my_course = $student->myCourse;
+        $course_id = $my_course->course_id;
+        $account_id = $my_course->account_id;
+        $user_id = Auth::user()->id;
+        $student_id = $student->id;
+
+        $my_course->fees_received = $my_course->fees_received + $amount;
+        $my_course->fees_escrow = $my_course->fees_escrow + $amount;
+
+        try{
+            PaymentsStudent::create([
+                'course_id' => $course_id,
+                'student_id' => $student_id,
+                'course_student_id' => $my_course->id,
+                'account_id' => $account_id,
+                'user_id' => $user_id,
+                'payment_date' => \Carbon\Carbon::parse($request['paydate'])->format('Y-m-d'),
+                'amount' => $amount,
+                'note' => json_encode($request["note"])
+            ]);
+            $my_course->save();
+            DB::commit();
+            return Redirect::route('students')->with('success', 'Student payment updated.');
+        } catch (\Throwable $throwable) {
+            DB::rollBack();
+            return Redirect::back()->with('error','Student payment cannot be updated this time please try again later.');
+        }
+
     }
 }

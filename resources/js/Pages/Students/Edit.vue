@@ -48,20 +48,26 @@
           <table class="w-full whitespace-nowrap">
             <tr class="text-left font-bold">
               <th class="pb-4 pt-6 px-6">Date</th>
+              <th class="pb-4 pt-6 px-6">Received by</th>
               <th class="pb-4 pt-6 px-6">Amount</th>
             </tr>
             <tr v-for="pay in payments" :key="pay.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
               <td class="border-t">
-                <span class="flex items-center px-6 py-4 focus:text-indigo-500">{{ date(pay.payment_date) }}</span>
+                <span class="flex items-center px-6 py-4 focus:text-indigo-500">{{ date(pay.payment.payment_date) }}</span>
               </td>
               <td class="border-t">
-                <span class="flex items-center px-6 py-4 focus:text-indigo-500">{{ pay.amount }}</span>
+                <span class="flex items-center px-6 py-4 focus:text-indigo-500">{{ pay.user.first_name }} {{  pay.user.last_name }}</span>
+              </td>
+              <td class="border-t">
+                <span class="flex items-center px-6 py-4 focus:text-indigo-500">{{ pay.payment.amount }}</span>
               </td>
             </tr>
           </table>
         </div>
         <div class="flex items-center px-8 py-4 bg-gray-50 border-t border-gray-100">
-          <loading-button class="btn-indigo ml-auto" type="submit">Add Payment</loading-button>
+          <Link class="btn-indigo ml-auto" :href="`/students/${student.id}/payment`" tabindex="-1">
+            Add Payment
+          </Link>
         </div>
       </div>
     </div>

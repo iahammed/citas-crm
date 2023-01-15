@@ -100,4 +100,9 @@ class User extends Authenticatable
             }
         });
     }
+
+    // public function payments_student()
+    // {
+    //     return $this->hasMany(PaymentsStudent::class);
+    // }
 }
