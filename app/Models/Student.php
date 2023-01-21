@@ -52,9 +52,15 @@ class Student extends Model
         return $this->hasOne(CourseStudent::class);
     }
 
+    public function getDueAttribute()
+    {
+        $ps = $this->myCourse;
+        return $ps->fees - $ps->fees_received;
+    }
+
     public function myPayments()
     {
-        return $this->hasMany(PaymentsStudent::class);
+        return $this->hasMany(PaymentsStudent::class); //->orderBy('created_at', 'DESC');
     }
 
     public function getPaymentsAttribute()
@@ -64,7 +70,8 @@ class Student extends Model
         foreach($payments as $payment) {
             $myPayments[] = [
                 'payment' => $payment,
-                'user' => $payment->user
+                'user' => $payment->user,
+                'method_payment' => $payment->method_payment
             ];
         }
         return $myPayments;

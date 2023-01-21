@@ -40,4 +40,9 @@ class Account extends Model
     {
         return $this->hasMany(AgentPayment::class);
     }
+
+    public function method_payment()
+    {
+        return $this->hasMany(MethodPayment::class);
+    }
 }

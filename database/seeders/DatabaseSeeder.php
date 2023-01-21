@@ -9,6 +9,7 @@ use App\Models\Account;
 use App\Models\Contact;
 use App\Models\Student; 
 use App\Models\Organization;
+use App\Models\MethodPayment;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -52,5 +53,8 @@ class DatabaseSeeder extends Seeder
 
         Course::factory(5)
             ->create(['account_id' => $account->id, 'user_id' => $users->random()->id]);
+
+        $method_payment_cash = MethodPayment::create(['account_id' => $account->id, 'name' => 'Cash']);
+        $method_payment_bank = MethodPayment::create(['account_id' => $account->id, 'name' => 'Bank']);
     }
 }

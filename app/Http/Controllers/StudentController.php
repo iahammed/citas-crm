@@ -70,6 +70,12 @@ class StudentController extends Controller
                 ->get()
                 ->map
                 ->only('id', 'name'),
+            'pMethods' => Auth::user()->account
+                ->method_payment()
+                ->orderBy('Name')
+                ->get()
+                ->map
+                ->only('id', 'name'),
         ]);
     }
 
@@ -132,6 +138,7 @@ class StudentController extends Controller
                 'user_id' => $user_id,
                 'course_id' => $request["course_id"],
                 'student_id' => $student->id, 
+                'payment_method_id' => $request["pMethod"],
                 'course_student_id' => $courseStudent->id,
                 'payment_date' => now()->format('Y-m-d'),
                 'amount' => $request["fees_received"],
@@ -215,6 +222,7 @@ class StudentController extends Controller
             'course' => $student->course,
             'my_course' => $student->myCourse,
             'payments' => $student->payments
+
         ]);
     }
 
@@ -278,7 +286,13 @@ class StudentController extends Controller
                 'fees' => $student->myCourse->fees,
                 'received' => $student->myCourse->fees_received,
                 'escrow' => $student->myCourse->fees_escrow
-            ]
+            ],
+            'pMethods' => Auth::user()->account
+                ->method_payment()
+                ->orderBy('Name')
+                ->get()
+                ->map
+                ->only('id', 'name'),
         ]);
     }
 
@@ -291,8 +305,16 @@ class StudentController extends Controller
         $user_id = Auth::user()->id;
         $student_id = $student->id;
 
+        if($my_course->fees < ($my_course->fees_received + $amount)) {
+            $due = $my_course->fees - $my_course->fees_received;
+            $message = 'Payment must be equal or less than due: ' .  $due;
+            return Redirect::back()->with('error', $message);
+        }
+
         $my_course->fees_received = $my_course->fees_received + $amount;
         $my_course->fees_escrow = $my_course->fees_escrow + $amount;
+
+
 
         try{
             PaymentsStudent::create([
@@ -301,9 +323,10 @@ class StudentController extends Controller
                 'course_student_id' => $my_course->id,
                 'account_id' => $account_id,
                 'user_id' => $user_id,
+                'payment_method_id' => $request->pMethod,
                 'payment_date' => \Carbon\Carbon::parse($request['paydate'])->format('Y-m-d'),
                 'amount' => $amount,
-                'note' => json_encode($request["note"])
+                'note' => json_encode([$request["note"]])
             ]);
             $my_course->save();
             DB::commit();

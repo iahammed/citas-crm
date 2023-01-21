@@ -17,7 +17,11 @@
               <text-input v-model="form.first_name" disabled :error="form.errors.first_name" class="pb-8 pr-6 w-full lg:w-1/2" label="First name" />
               <text-input v-model="form.last_name" disabled :error="form.errors.last_name" class="pb-8 pr-6 w-full lg:w-1/2" label="Last name" />
               <date-input v-model="form.paydate" :error="form.errors.paydate" class="pb-8 pr-6 w-full lg:w-1/2" label="Payment date"></date-input>
-              <text-input v-model="form.amount" :error="form.errors.amount" class="pb-8 pr-6 w-full lg:w-1/2" label="Amount" />
+              <select-input v-model="form.pMethod"  :error="form.errors.pMethod" class="pb-8 pr-6 w-full lg:w-1/2" label="Method of Payment">
+                <option :value="null" />
+                <option v-for="pm in pMethods" :key="pm.id" :value="pm.id">{{ pm.name }}</option>
+              </select-input>
+            <text-input @keyup="checkPayment" v-model="form.amount" :error="form.errors.amount" class="pb-8 pr-6 w-full lg:w-1/2" label="Amount" />
               <textarea-input v-model="form.note" :error="form.errors.note" class="pb-8 pr-6 w-full lg:w-full" label="Note" />
             </div>
             <div class="flex items-center px-8 py-4 bg-gray-50 border-t border-gray-100">
@@ -54,6 +58,7 @@
     layout: Layout,
     props: {
       student: Object,
+      pMethods: Array
     },
     remember: 'form',
     data() {
@@ -62,6 +67,7 @@
           first_name: this.student.first_name,
           last_name: this.student.last_name,
           paydate: this.student.paydate,
+          pMethod: '',
           amount: this.student.amount,
           note: this.student.note,
         }),

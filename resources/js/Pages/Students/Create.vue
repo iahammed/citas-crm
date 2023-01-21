@@ -37,6 +37,10 @@
               <option v-for="course in courses" :key="course.id" :value="course.id">{{ course.name }}</option>
             </select-input>
             <text-input v-model="form.fees" :error="form.errors.fees" class="pb-8 pr-6 w-full lg:w-1/2" label="Fees" />
+            <select-input v-model="form.pMethod"  :error="form.errors.pMethod" class="pb-8 pr-6 w-full lg:w-1/2" label="Method of Payment">
+              <option :value="null" />
+              <option v-for="pm in pMethods" :key="pm.id" :value="pm.id">{{ pm.name }}</option>
+            </select-input>
             <text-input v-model="form.fees_received" :error="form.errors.fees_received" class="pb-8 pr-6 w-full lg:w-1/2" label="Fees received" />
             <date-input v-model="form.start" :error="form.errors.start" class="pb-8 pr-6 w-full lg:w-1/2" label="Course Start"></date-input>
             <select-input v-model="form.length"  :error="form.errors.length" class="pb-8 pr-6 w-full lg:w-1/2" label="Duration of course">
@@ -82,6 +86,7 @@
     props: {
       courses: Array,
       agents: Array,
+      pMethods: Array
     },
     remember: 'form',
     data() {
@@ -101,6 +106,7 @@
           passport: 'PT860578K',
           fees: 0,
           fees_received: 0,
+          pMethod: '',
           start: '',
           finish: '',
           agent: '',
@@ -110,16 +116,6 @@
         length: [ {'label': 'Two Weeks', 'value': 2}, {'label': 'Four Weeks', 'value': 4}, {'label': 'Eight Weeks', 'value': 8}, {'label': 'Twelve Weeks', 'value': 12}, {'label': 'Twintysix Weeks', 'value': 26} ],
       }
     },
-    // watch: {
-    //   fees() {
-    //     for (let i = 0; i < this.courses.length; i++) {
-    //         if (this.courses[i].id > this.form.course_id) {                
-    //           this.form.fees = this.courses[i].fees
-    //           break
-    //         }
-    //     }
-    //   }
-    // },
     methods: {
       updateFees(){
         for (let i = 0; i < this.courses.length; i++) {

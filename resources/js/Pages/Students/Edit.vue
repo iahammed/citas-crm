@@ -49,6 +49,7 @@
             <tr class="text-left font-bold">
               <th class="pb-4 pt-6 px-6">Date</th>
               <th class="pb-4 pt-6 px-6">Received by</th>
+              <th class="pb-4 pt-6 px-6">Method</th>
               <th class="pb-4 pt-6 px-6">Amount</th>
             </tr>
             <tr v-for="pay in payments" :key="pay.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
@@ -57,6 +58,9 @@
               </td>
               <td class="border-t">
                 <span class="flex items-center px-6 py-4 focus:text-indigo-500">{{ pay.user.first_name }} {{  pay.user.last_name }}</span>
+              </td>
+              <td class="border-t">
+                <span class="flex items-center px-6 py-4 focus:text-indigo-500">{{ pay.method_payment.name }}</span>
               </td>
               <td class="border-t">
                 <span class="flex items-center px-6 py-4 focus:text-indigo-500">{{ pay.payment.amount }}</span>

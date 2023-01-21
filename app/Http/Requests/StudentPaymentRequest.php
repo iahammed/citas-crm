@@ -24,7 +24,24 @@ class StudentPaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            
+            'pMethod' => ['required'],
+            'first_name' => ['required'],
+            'paydate' => ['required', 'date'],
+            'amount' => ['required', 'numeric']
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'pMethod.required' => 'Method of payment is required',
+            'paydate.required' => 'Payment date is required',
+            'paydate.date' => 'Payment date is must be date nothing else allowed',
         ];
     }
 }

@@ -27,5 +27,10 @@ class PaymentsStudent extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function method_payment()
+    {
+        return $this->belongsTo(MethodPayment::class, 'payment_method_id');
+    }
     
 }

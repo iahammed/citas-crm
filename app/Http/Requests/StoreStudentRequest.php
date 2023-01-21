@@ -38,7 +38,19 @@ class StoreStudentRequest extends FormRequest
             'length' => ['required', 'numeric'],
             'fees_received' => ['required', 'numeric', 'min:20'],
             'fees' => ['required', 'numeric', 'min:1000'],
-            'dob' => ['required']
+            'dob' => ['required'],
+            'pMethod' => ['required'],
+        ];
+    }
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'pMethod.required' => 'Method of payment is required',
         ];
     }
 }

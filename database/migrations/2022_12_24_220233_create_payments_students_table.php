@@ -36,6 +36,10 @@ class CreatePaymentsStudentsTable extends Migration
                     ->constrained('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
+            $table->foreignId('payment_method_id')
+                    ->constrained('method_payments')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
             $table->date('payment_date');
             $table->decimal('amount', $precision = 8, $scale = 2);
             $table->json('note')->default(new Expression('(JSON_ARRAY())'))->nullable();
