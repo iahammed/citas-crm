@@ -27,6 +27,7 @@ class CreateStudentsTable extends Migration
             $table->string('middle_name', 25)->nullable();
             $table->string('last_name', 25);
             $table->string('email', 50)->nullable();
+            $table->integer('student_id');
             $table->string('phone', 50)->nullable();
             $table->string('address', 150)->nullable();
             $table->string('city', 50)->nullable();
@@ -34,6 +35,7 @@ class CreateStudentsTable extends Migration
             $table->string('country', 2)->nullable();
             $table->string('postal_code', 25)->nullable();
             $table->date('dob');
+            $table->string('passport', 25)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -77,6 +77,13 @@ Route::get('courses', [CourseController::class, 'index'])
     ->middleware('auth');
 
 // Students
+
+/**
+ * Refeund Cancelation of course / Accomodation / Transfer
+ * 
+ * 
+ * 
+ */
 Route::get('students', [StudentController::class, 'index'])
     ->name('students')
     ->middleware('auth');

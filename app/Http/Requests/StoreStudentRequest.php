@@ -29,6 +29,7 @@ class StoreStudentRequest extends FormRequest
             'email' => ['required','unique:students', 'max:50', 'email'],
             'phone' => ['nullable', 'max:50'],
             'address' => ['nullable', 'max:150'],
+            'student_id' => ['required', 'numeric'],
             'city' => ['nullable', 'max:50'],
             'region' => ['nullable', 'max:50'],
             'country' => ['nullable', 'max:2'],

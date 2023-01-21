@@ -19,6 +19,7 @@
       <div class="bg-white rounded-md shadow overflow-x-auto">
         <table class="w-full whitespace-nowrap">
           <tr class="text-left font-bold">
+            <th class="pb-4 pt-6 px-6">Std ID</th>
             <th class="pb-4 pt-6 px-6">Name</th>
             <th class="pb-4 pt-6 px-6">Course</th>
             <th class="pb-4 pt-6 px-6">Start</th>
@@ -28,6 +29,12 @@
             <th class="pb-4 pt-6 px-6">Escrow</th>
           </tr>
           <tr v-for="student in students.data" :key="student.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+            <td class="border-t">
+              <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/students/${student.id}/edit`">
+                {{ student.student_id }}
+                <icon v-if="student.deleted_at" name="trash" class="flex-shrink-0 ml-2 w-3 h-3 fill-gray-400" />
+              </Link>
+            </td>
             <td class="border-t">
               <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/students/${student.id}/edit`">
                 {{ student.name }}

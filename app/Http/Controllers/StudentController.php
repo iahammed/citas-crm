@@ -40,6 +40,7 @@ class StudentController extends Controller
                 ->withQueryString()
                 ->through(fn ($student) => [
                     'id' => $student->id,
+                    'student_id' => $student->student_id,
                     'name' => $student->name,
                     'phone' => $student->phone,
                     'city' => $student->city,
@@ -110,9 +111,11 @@ class StudentController extends Controller
                 'phone' => $request['phone'],
                 'address' => $request['address'],
                 'city' => $request['city'],
+                'student_id' => $request['student_id'],
                 'region' => $request['region'],
                 'country' => $request['country'],
                 'postal_code' => $request['postal_code'],
+                'passport' => $request['passport'],
                 'dob' =>  \Carbon\Carbon::parse($request['dob'])->format('Y-m-d'),
                 'user_id' => $user_id,
                 'account_id' => $account_id,
@@ -217,6 +220,7 @@ class StudentController extends Controller
                 'region' => $student->region,
                 'country' => $student->country,
                 'postal_code' => $student->postal_code,
+                'passport' => $student->passport,
                 'deleted_at' => $student->deleted_at,
             ],
             'course' => $student->course,
@@ -250,6 +254,7 @@ class StudentController extends Controller
                 'region' => ['nullable', 'max:50'],
                 'country' => ['nullable', 'max:2'],
                 'postal_code' => ['nullable', 'max:25'],
+                'passport' => ['nullable', 'max:25'],
             ])
         );
 
@@ -314,8 +319,6 @@ class StudentController extends Controller
         $my_course->fees_received = $my_course->fees_received + $amount;
         $my_course->fees_escrow = $my_course->fees_escrow + $amount;
 
-
-
         try{
             PaymentsStudent::create([
                 'course_id' => $course_id,
@@ -335,6 +338,5 @@ class StudentController extends Controller
             DB::rollBack();
             return Redirect::back()->with('error','Student payment cannot be updated this time please try again later.');
         }
-
     }
 }

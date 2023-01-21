@@ -7,6 +7,9 @@
       </h1>
       <div class="max-w-3xl bg-white rounded-md shadow overflow-hidden">
         <form @submit.prevent="store">
+          <h1 class="-mb-8 -mr-6 p-8 text-2xl font-bold">
+            <span class="text-indigo-600 font-medium">Personal Info</span>
+          </h1>
           <div class="flex flex-wrap -mb-8 -mr-6 p-8">
             <!-- Personal -->
             <text-input v-model="form.first_name" :error="form.errors.first_name" class="pb-8 pr-6 w-full lg:w-1/2" label="First name" />
@@ -18,6 +21,7 @@
               <option value="US">United States</option>
             </select-input>
             <text-input v-model="form.passport" :error="form.errors.passport" class="pb-8 pr-6 w-full lg:w-1/2" label="Passport No" />
+            <text-input v-model="form.student_id" :error="form.errors.student_id" class="pb-8 pr-6 w-full lg:w-1/2" label="Student ID" />
           </div>
           <hr />
           <div class="flex flex-wrap -mb-8 -mr-6 p-8">
@@ -30,6 +34,9 @@
             <text-input v-model="form.phone" :error="form.errors.phone" class="pb-8 pr-6 w-full lg:w-1/2" label="Phone" />            
           </div>
           <hr />
+          <h1 class="-mb-8 -mr-6 p-8 text-2xl font-bold">
+            <span class="text-indigo-600 font-medium">Course Info</span>
+          </h1>
           <div class="flex flex-wrap -mb-8 -mr-6 p-8">
             <!-- Course and Fees -->
             <select-input v-model="form.course_id" @change="updateFees" :error="form.errors.course_id" class="pb-8 pr-6 w-full lg:w-1/2" label="Course">
@@ -57,6 +64,34 @@
             <text-input v-model="form.commission" :error="form.errors.commission" class="pb-8 pr-6 w-full lg:w-1/2" label="Commission" />
             <!-- <date-input v-model="form.finish" :error="form.errors.postal_code" class="pb-8 pr-6 w-full lg:w-1/2" label="Course Finish"></date-input> -->
           </div>
+          <hr />
+          <div class="flex flex-wrap">
+            <h1 class="-mb-8 -mr-6 p-8 text-2xl font-bold w-1/2">
+              <span class="text-indigo-600 font-medium">Accomodation Info</span> 
+            </h1>
+            <div class="-mb-8 p-8 align-baseline self-end">Ivan</div>
+          </div>
+          <div class="flex flex-wrap -mb-8 -mr-6 p-8">
+            <select-input v-model="form.needAccomodation"  :error="form.errors.needAccommodation" class="pb-8 pr-6 w-full lg:w-1/2" label="Need accommodation">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select-input>
+            <text-input v-model="form.accommodationFees" :error="form.errors.accommodationFees" class="pb-8 pr-6 w-full lg:w-1/2" label="Accommodation fees" />
+            <date-input v-model="form.finish" :error="form.errors.postal_code" class="pb-8 pr-6 w-full lg:w-1/2" label="Course Finish"></date-input>
+          </div>
+          <hr />
+          <h1 class="-mb-8 -mr-6 p-8 text-2xl font-bold">
+            <span class="text-indigo-600 font-medium">Transfer Info</span>
+          </h1>
+          <div class="flex flex-wrap -mb-8 -mr-6 p-8">
+            <select-input v-model="form.needTransfer"  :error="form.errors.needTransfer" class="pb-8 pr-6 w-full lg:w-1/2" label="Need transfer">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select-input>
+            <text-input v-model="form.transferFees" :error="form.errors.transferFees" class="pb-8 pr-6 w-full lg:w-1/2" label="Transfer fees" />
+            <date-input v-model="form.finish" :error="form.errors.postal_code" class="pb-8 pr-6 w-full lg:w-1/2" label="Course Finish"></date-input>
+          </div>
+
           <div class="flex items-center justify-end px-8 py-4 bg-gray-50 border-t border-gray-100">
             <loading-button :loading="form.processing" class="btn-indigo" type="submit">Create Student</loading-button>
           </div>
@@ -80,7 +115,7 @@
       LoadingButton,
       SelectInput,
       TextInput,
-      DateInput
+      DateInput,
     },
     layout: Layout,
     props: {
@@ -91,6 +126,7 @@
     remember: 'form',
     data() {
       return {
+        isActive: false,
         form: this.$inertia.form({
           first_name: 'Iftakher',
           last_name: 'Ahammed',
@@ -104,6 +140,7 @@
           postal_code: 'IG1 4RZ',
           dob: '',
           passport: 'PT860578K',
+          student_id: '',
           fees: 0,
           fees_received: 0,
           pMethod: '',
@@ -111,12 +148,25 @@
           finish: '',
           agent: '',
           length: '',
-          commission: ''
+          commission: '',
+          needAccommodation: false,
+          accommodationFees: 0,
+          needTransfer: false,
+          transferFees: 0,
         }),
-        length: [ {'label': 'Two Weeks', 'value': 2}, {'label': 'Four Weeks', 'value': 4}, {'label': 'Eight Weeks', 'value': 8}, {'label': 'Twelve Weeks', 'value': 12}, {'label': 'Twintysix Weeks', 'value': 26} ],
+        length: [ 
+          {'label': 'Two Weeks', 'value': 2}, 
+          {'label': 'Four Weeks', 'value': 4}, 
+          {'label': 'Eight Weeks', 'value': 8}, 
+          {'label': 'Twelve Weeks', 'value': 12}, 
+          {'label': 'Twintysix Weeks', 'value': 26}
+        ],
       }
     },
     methods: {
+      toggle(value) {
+        isActive.value = !isActive.value;
+      },
       updateFees(){
         for (let i = 0; i < this.courses.length; i++) {
             if (this.courses[i].id > this.form.course_id) {                
@@ -131,4 +181,13 @@
     },
   }
   </script>
+  <style>
+    input:checked {
+      background-color: #087630; /* bg-green-500 */
+    }
+
+    input:checked ~ span:last-child {
+      --tw-translate-x: 1.75rem; /* translate-x-7 */
+    }
+  </style>
   

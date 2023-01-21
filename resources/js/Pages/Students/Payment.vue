@@ -67,7 +67,7 @@
           first_name: this.student.first_name,
           last_name: this.student.last_name,
           paydate: this.student.paydate,
-          pMethod: '',
+          pMethod: 2,
           amount: this.student.amount,
           note: this.student.note,
         }),
