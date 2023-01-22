@@ -65,31 +65,44 @@
             <!-- <date-input v-model="form.finish" :error="form.errors.postal_code" class="pb-8 pr-6 w-full lg:w-1/2" label="Course Finish"></date-input> -->
           </div>
           <hr />
-          <div class="flex flex-wrap">
-            <h1 class="-mb-8 -mr-6 p-8 text-2xl font-bold w-1/2">
+          <div class="flex flex-wrap mb-4">
+            <h1 class="p-4 text-2xl font-bold w-3/5">
               <span class="text-indigo-600 font-medium">Accomodation Info</span> 
             </h1>
-            <div class="-mb-8 p-8 align-baseline self-end">Ivan</div>
+            <div class="align-baseline items-end content-end w-2/5">
+              <div class="p-4 flex justify-between items-center" @click="form.needAccommodation = !form.needAccommodation">
+                <h2 class="p-4 items-end">Need Accommodation :</h2>
+                <div class="w-12 h-5 flex items-center rounded-full p-1 duration-300 ease-in-out bg-red-100" :class="{ 'bg-green-400': form.needAccommodation}">
+                  <div class="bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ease-in-out" :class="{ 'translate-x-6': form.needAccommodation}"></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="flex flex-wrap -mb-8 -mr-6 p-8">
-            <select-input v-model="form.needAccomodation"  :error="form.errors.needAccommodation" class="pb-8 pr-6 w-full lg:w-1/2" label="Need accommodation">
-              <option value="false">No</option>
-              <option value="true">Yes</option>
-            </select-input>
+          <div class="flex flex-wrap -mb-8 -mr-6 p-8" v-if="form.needAccommodation">
             <text-input v-model="form.accommodationFees" :error="form.errors.accommodationFees" class="pb-8 pr-6 w-full lg:w-1/2" label="Accommodation fees" />
-            <date-input v-model="form.finish" :error="form.errors.postal_code" class="pb-8 pr-6 w-full lg:w-1/2" label="Course Finish"></date-input>
+            <date-input v-model="form.accommodationStart" :error="form.errors.accommodationStart" class="pb-8 pr-6 w-full lg:w-1/2" label="Accommodation Start"></date-input>
+            <select-input v-model="form.accommodationLength"  :error="form.errors.accommodationLength" class="pb-8 pr-6 w-full lg:w-1/2" label="Duration of accomodation">
+              <option :value="null" />
+              <option v-for="ln in length" :key="ln.id" :value="ln.value">{{ ln.label }}</option>
+            </select-input>
           </div>
           <hr />
-          <h1 class="-mb-8 -mr-6 p-8 text-2xl font-bold">
-            <span class="text-indigo-600 font-medium">Transfer Info</span>
-          </h1>
-          <div class="flex flex-wrap -mb-8 -mr-6 p-8">
-            <select-input v-model="form.needTransfer"  :error="form.errors.needTransfer" class="pb-8 pr-6 w-full lg:w-1/2" label="Need transfer">
-              <option value="false">No</option>
-              <option value="true">Yes</option>
-            </select-input>
+          <div class="flex space-between mb-4 w-full">
+            <h1 class="p-4 text-2xl font-bold w-3/5">
+              <span class="text-indigo-600 font-medium">Transfer Info</span> 
+            </h1>
+            <div class="align-baseline items-end content-end w-2/5">
+              <div class="p-4 flex justify-between items-center" @click="form.needTransfer = !form.needTransfer">
+                <h2 class="p-4 items-end">Need Transfer:</h2>
+                <div class="w-12 h-5 flex items-center rounded-full p-1 duration-300 ease-in-out bg-red-100" :class="{ 'bg-green-400': form.needTransfer}">
+                  <div class="bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ease-in-out" :class="{ 'translate-x-6': form.needTransfer}"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mb-8 -mr-6 p-8" v-if="form.needTransfer">
             <text-input v-model="form.transferFees" :error="form.errors.transferFees" class="pb-8 pr-6 w-full lg:w-1/2" label="Transfer fees" />
-            <date-input v-model="form.finish" :error="form.errors.postal_code" class="pb-8 pr-6 w-full lg:w-1/2" label="Course Finish"></date-input>
+            <date-input v-model="form.transferStart" :error="form.errors.transferStart" class="pb-8 pr-6 w-full lg:w-1/2" label="Transfer Start"></date-input>
           </div>
 
           <div class="flex items-center justify-end px-8 py-4 bg-gray-50 border-t border-gray-100">
@@ -126,7 +139,8 @@
     remember: 'form',
     data() {
       return {
-        isActive: false,
+        // isActive: false,
+        toggleActive: false,
         form: this.$inertia.form({
           first_name: 'Iftakher',
           last_name: 'Ahammed',
@@ -151,8 +165,11 @@
           commission: '',
           needAccommodation: false,
           accommodationFees: 0,
+          accommodationStart: '',
+          accommodationLength: '',
           needTransfer: false,
           transferFees: 0,
+          transferStart: '',
         }),
         length: [ 
           {'label': 'Two Weeks', 'value': 2}, 
